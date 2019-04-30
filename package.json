@@ -1,0 +1,28 @@
+{
+  "name": "steam-account-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@sentry/node": "^5.1.0",
+    "body-parser": "^1.19.0",
+    "connect-timeout": "^1.9.0",
+    "cors": "^2.8.4",
+    "dotenv": "^4.0.0",
+    "express": "^4.16.4",
+    "fs": "0.0.1-security",
+    "rcon": "^1.0.3",
+    "request": "^2.88.0",
+    "request-debug": "^0.2.0",
+    "steam-tradeoffer-manager": "^2.9.5",
+    "steam-user": "^3.29.3",
+    "steamcommunity": "^3.40.0",
+    "util": "^0.10.4",
+    "winston-loggly-bulk": "^3.0.1"
+  }
+}
