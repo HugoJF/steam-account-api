@@ -185,7 +185,8 @@ community.on("sessionExpired", function (err) {
 
 // Hook PollData to save on change
 manager.on('pollData', function (pollData) {
-    fs.writeFile('polldata.json', JSON.stringify(pollData));
+    fs.writeFile('polldata.json', JSON.stringify(pollData), function () {
+    });
 });
 
 /***************
