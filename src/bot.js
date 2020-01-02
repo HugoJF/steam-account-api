@@ -8,7 +8,8 @@ let requestTimeout = null;
 let chats = [];
 
 const loadChats = () => {
-    chats = JSON.parse(fs.readFileSync(CHATS_PATH));
+    if (fs.existsSync(CHATS_PATH))
+        chats = JSON.parse(fs.readFileSync(CHATS_PATH));
 };
 
 const saveChatId = (id) => {

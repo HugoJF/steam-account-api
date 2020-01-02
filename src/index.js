@@ -9,10 +9,10 @@ import SteamUser from 'steam-user'
 import SteamCommunity from 'steamcommunity'
 import TradeOfferManager from 'steam-tradeoffer-manager'
 
-import Sentry from '@sentry/node';
+import * as Sentry from '@sentry/node';
 import TelegramBot from 'node-telegram-bot-api';
 
-import {haltOnTimeout, log, logsRequestsPath, readTokens, validateToken} from './helpers'
+import {haltOnTimeout, log, readTokens, validateToken} from './helpers'
 import {setup} from './pages';
 import {askFor2FACode, setupBot} from "./bot";
 
@@ -26,7 +26,6 @@ dotenv.config({path: __dirname + './../.env'});
  **************/
 
 app.use(validateToken(readTokens()));
-app.use(logsRequestsPath);
 app.use(timeout(30000));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
