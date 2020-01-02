@@ -1,5 +1,5 @@
 import dotenv from 'dotenv'
-dotenv.config({path: __dirname + './../.env'});
+dotenv.config({path: __dirname + '/../.env'});
 
 import fs from 'fs';
 import cors from 'cors'
