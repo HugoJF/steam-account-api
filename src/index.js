@@ -10,7 +10,6 @@ import bodyParser from "body-parser"
 import SteamUser from 'steam-user'
 import SteamCommunity from 'steamcommunity'
 import TradeOfferManager from 'steam-tradeoffer-manager'
-
 import * as Sentry from '@sentry/node';
 import TelegramBot from 'node-telegram-bot-api';
 

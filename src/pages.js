@@ -1,8 +1,9 @@
-const {
+import {
     log,
     response,
-    error: errorResponse,
-} = require("./helpers");
+    error as errorResponse,
+} from "./helpers";
+import {SteamID} from 'steamcommunity';
 
 export const setup = (client, manager, app) => {
     /**
