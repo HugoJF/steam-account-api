@@ -1,7 +1,7 @@
 module.exports = {
     apps: [{
-        name: 'steam-account-api',
-        cwd: '.',
+        name: 'steam-account-api-staging',
+        cwd: './build',
         script: 'index.js',
 
         // Options reference: https://pm2.keymetrics.io/docs/usage/application-declaration/
