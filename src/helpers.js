@@ -69,7 +69,6 @@ export const validateToken = (tokens) => {
 };
 
 export const readTokens = () => {
-    // let file = fs.readFileSync('tokens.json', {encoding: 'utf8'});
-    return [];
-//    return JSON.parse(file);
+    let file = fs.readFileSync('tokens.json', {encoding: 'utf8'});
+    return JSON.parse(file);
 };
