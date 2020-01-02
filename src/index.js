@@ -1,6 +1,8 @@
+import dotenv from 'dotenv'
+dotenv.config({path: __dirname + './../.env'});
+
 import fs from 'fs';
 import cors from 'cors'
-import dotenv from 'dotenv'
 import express from 'express';
 import timeout from 'connect-timeout'
 import bodyParser from "body-parser"
@@ -18,7 +20,6 @@ import {askFor2FACode, setupBot} from "./bot";
 
 const SteamID = SteamCommunity.SteamID;
 const app = express();
-dotenv.config({path: __dirname + './../.env'});
 
 
 /**************
