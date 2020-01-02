@@ -1,3 +1,5 @@
+import fs from "fs";
+
 export const runCallbacks = (callbackList, data) => {
     for (let i = callbackList.length - 1; i >= 0; i--) {
         let cb = callbackList[i];
