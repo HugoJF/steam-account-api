@@ -1,6 +1,7 @@
 .idea/
 logs/
+build/
 node_modules/
 tokens.json
 .env
-polldata.json
+build/polldata.json
