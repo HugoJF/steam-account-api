@@ -7,23 +7,6 @@ import {SteamID} from 'steamcommunity';
 
 export const setup = (client, manager, app) => {
     /**
-     * @deprecated
-     * Attempts to login using account information
-     */
-    app.get('/login', (req, res) => {
-        let code = req.query.code;
-
-        client.logOn({
-            accountName: process.env.ACCOUNT_NAME,
-            password: process.env.ACCOUNT_PASS,
-            twoFactorCode: code
-        });
-
-        log('Trying to log in to Steam with two factor code.');
-        res.send(response('Trying to login...'));
-    });
-
-    /**
      * Logs an internal message
      */
     app.get('/consoleLog', (req, res) => {

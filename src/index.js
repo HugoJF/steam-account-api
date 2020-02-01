@@ -1,4 +1,5 @@
 import dotenv from 'dotenv'
+
 dotenv.config({path: __dirname + '/../.env'});
 
 import fs from 'fs';
@@ -37,6 +38,7 @@ app.use(haltOnTimeout);
  *************/
 const HTTP_PORT = process.env.HTTP_PORT || 7777;
 const TELEGRAM_TOKEN = process.env.TELEGRAM_API_KEY;
+const STEAM_LOGON_DATA = {accountName: process.env.ACCOUNT_NAME, password: process.env.ACCOUNT_PASS};
 
 /*********
  * SETUP *
@@ -83,11 +85,11 @@ client.on('loggedOn', function (det) {
 
     client.webLogOn();
 
-    setInterval(function () {
-        log('Automatic session refresher called');
-
-        client.webLogOn();
-    }, 1000 * 60 * 10);
+    // setInterval(function () {
+    //     log('Automatic session refresher called');
+    //
+    //     client.webLogOn();
+    // }, 1000 * 60 * 10);
 });
 
 client.on('error', function (err) {
@@ -119,10 +121,10 @@ client.on('disconnected', function (eresult, msg) {
 //     log(`DEBUG ${eresult}: ${msg}`);
 // });
 
-client.on('webSession', function (sessionID, cookies) {
+client.on('webSession', (sessionID, cookies) => {
     log("Got web session");
     community.setCookies(cookies);
-    manager.setCookies(cookies, function (err) {
+    manager.setCookies(cookies, (err) => {
         if (err) {
             log(`Failed to retrive account cookies ${err}`);
             process.exit(1); // Fatal error since we couldn't get our API key
@@ -134,30 +136,23 @@ client.on('webSession', function (sessionID, cookies) {
     });
 });
 
-community.on("sessionExpired", function (err) {
+community.on("sessionExpired", (err) => {
     if (err) log(`Community triggered sessionExpired: ${err}`);
 
     log('Community triggered sessionExpired, trying to relogging');
 
-    community.loggedIn(function (err, loggedIn, familyView) {
-        if (err) log(`community.loggedIn returned error: ${err}`);
-
-        log(`community.loggedIn: ${loggedIn}`);
-    });
-
     let delta = Date.now() - lastLoginAttempt;
+    let steamLogon = () => client.logOn(STEAM_LOGON_DATA);
 
     if (delta > 10000) {
         log("Session Expired, relogging.");
 
         lastLoginAttempt = Date.now();
-        client.webLogOn();
+        steamLogon();
     } else {
         log(`Session Expired, waiting ${delta}ms a while before attempting to relogin.`);
 
-        setTimeout(() => {
-            client.webLogOn();
-        }, delta)
+        setTimeout(steamLogon, delta);
     }
 });
 
@@ -173,10 +168,7 @@ setup(client, manager, app);
 setupBot(bot);
 
 
-client.logOn({
-    accountName: process.env.ACCOUNT_NAME,
-    password: process.env.ACCOUNT_PASS,
-});
+client.logOn(STEAM_LOGON_DATA);
 
 app.listen(HTTP_PORT, () => {
     log('Listening on ' + HTTP_PORT);
