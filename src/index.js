@@ -143,7 +143,12 @@ community.on("sessionExpired", (err) => {
     log('Community triggered sessionExpired, trying to relogging');
 
     let delta = Date.now() - lastLoginAttempt;
-    let steamLogon = () => client.logOn(STEAM_LOGON_DATA);
+    let steamLogon = () => {
+        if (client.steamID)
+            client.logOn(STEAM_LOGON_DATA);
+        else
+            client.webLogOn();
+    };
 
     if (delta > 10000) {
         log("Session Expired, relogging.");
