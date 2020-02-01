@@ -112,6 +112,7 @@ client.on('error', function (err) {
 
 client.on('disconnected', function (eresult, msg) {
     log(`Disconnect from Steam: ${msg} -- EResult[${eresult}]`);
+    process.exit(1);
 });
 
 /**
