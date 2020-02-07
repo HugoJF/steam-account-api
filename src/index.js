@@ -1,7 +1,4 @@
 import dotenv from 'dotenv'
-
-dotenv.config({path: __dirname + '/../.env'});
-
 import fs from 'fs';
 import cors from 'cors'
 import express from 'express';
@@ -17,6 +14,8 @@ import TelegramBot from 'node-telegram-bot-api';
 import {haltOnTimeout, log, readTokens, validateToken} from './helpers'
 import {setup} from './pages';
 import {askFor2FACode, setupBot} from "./bot";
+
+dotenv.config({path: __dirname + '/../.env'});
 
 const SteamID = SteamCommunity.SteamID;
 const app = express();
@@ -145,9 +144,9 @@ community.on("sessionExpired", (err) => {
     let delta = Date.now() - lastLoginAttempt;
     let steamLogon = () => {
         if (client.steamID)
-            client.logOn(STEAM_LOGON_DATA);
-        else
             client.webLogOn();
+        else
+            client.logOn(STEAM_LOGON_DATA);
     };
 
     if (delta > 10000) {
