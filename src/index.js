@@ -71,6 +71,8 @@ if (fs.existsSync(__dirname + '/polldata.json')) {
     manager.pollData = JSON.parse(fs.readFileSync(__dirname + '/polldata.json'));
 }
 
+client.on('debug', (msg) => console.log('[debug] ' + msg));
+
 client.on('steamGuard', (domain, callback, lastCodeWrong) => {
     log('Received steamGuard event, asking through Telegram Bot');
     askFor2FACode().then((code) => {
