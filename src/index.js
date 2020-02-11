@@ -78,12 +78,6 @@ client.on('loggedOn', function (det) {
     log("Logged on");
 
     client.webLogOn();
-
-    // setInterval(function () {
-    //     log('Automatic session refresher called');
-    //
-    //     client.webLogOn();
-    // }, 1000 * 60 * 10);
 });
 
 client.on('error', function (err) {
@@ -108,13 +102,6 @@ client.on('disconnected', function (eresult, msg) {
     log(`Disconnect from Steam: ${msg} -- EResult[${eresult}]`);
     process.exit(1);
 });
-
-/**
- * @deprecated - this is not used and spams alot of messages
- */
-// client.on('debug', function (eresult, msg) {
-//     log(`DEBUG ${eresult}: ${msg}`);
-// });
 
 client.on('webSession', (sessionID, cookies) => {
     log("Got web session");
