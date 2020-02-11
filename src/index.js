@@ -37,7 +37,7 @@ app.use(haltOnTimeout);
  *************/
 const HTTP_PORT = process.env.HTTP_PORT || 7777;
 const TELEGRAM_TOKEN = process.env.TELEGRAM_API_KEY;
-const STEAM_LOGON_DATA = {accountName: process.env.ACCOUNT_NAME, password: process.env.ACCOUNT_PASS};
+export const STEAM_LOGON_DATA = {accountName: process.env.ACCOUNT_NAME, password: process.env.ACCOUNT_PASS};
 
 /*********
  * SETUP *
@@ -55,8 +55,6 @@ process.on('uncaughtException', function (err) {
 /*******************
  *    VARIABLES    *
  *******************/
-let lastLoginAttempt = 0;
-
 let client = new SteamUser({enablePicsCache: true});
 let community = new SteamCommunity();
 let manager = new TradeOfferManager({
@@ -143,23 +141,12 @@ community.on("sessionExpired", (err) => {
 
     log('Community triggered sessionExpired, trying to relogging');
 
-    let delta = Date.now() - lastLoginAttempt;
-    let steamLogon = () => {
-        if (client.steamID)
-            client.webLogOn();
-        else
-            client.logOn(STEAM_LOGON_DATA);
-    };
-
-    if (delta > 10000) {
-        log("Session Expired, relogging.");
-
-        lastLoginAttempt = Date.now();
-        steamLogon();
+    if (client.steamID) {
+        console.log('SteamID is still valid, calling webLogOn');
+        client.webLogOn();
     } else {
-        log(`Session Expired, waiting ${delta}ms a while before attempting to relogin.`);
-
-        setTimeout(steamLogon, delta);
+        console.log('SteamID is no longer valid, calling logOn');
+        client.logOn(STEAM_LOGON_DATA);
     }
 });
 

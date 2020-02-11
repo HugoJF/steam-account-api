@@ -4,6 +4,7 @@ import {
     error as errorResponse,
 } from "./helpers";
 import {SteamID} from 'steamcommunity';
+import {STEAM_LOGON_DATA} from "./index";
 
 export const setup = (client, manager, app) => {
     /**
@@ -114,9 +115,7 @@ export const setup = (client, manager, app) => {
 
             // Debug every item added and abort if any failed
             if (addedItem) {
-                let index = i + 1;
-
-                log(`Added item sucessfully [${index} / ${itemsParsed.length}]: ${itemsParsed[i].assetid}`);
+                log(`Added item sucessfully [${i + 1} / ${itemsParsed.length}]: ${itemsParsed[i].assetid}`);
             } else {
                 log(`Failed to add item: ${itemsParsed[i].assetid}`);
 
@@ -127,7 +126,7 @@ export const setup = (client, manager, app) => {
         log('Added all items sucessfully!');
 
         // Send trade offer
-        offer.send(function (err, status) {
+        offer.send((err, status) => {
             if (!err) {
                 log('Sent Trade Offer!');
                 res.send(response(offer));
@@ -136,18 +135,26 @@ export const setup = (client, manager, app) => {
             }
 
             log('Error trying to send trade offer, refreshing session and retrying again...');
-            client.webLogOn();
+            if (client.SteamID) {
+                client.webLogOn();
+            } else {
+                client.logOn(STEAM_LOGON_DATA);
+            }
 
-            offer.send(function (err2, status2) {
-                if (!err2) {
-                    log('Trade Offer sent!');
-                    res.send(response(offer));
-                } else {
-                    log('Failed to send trade offer even refreshing session!');
-                    console.error(err2);
-                    res.send(errorResponse(err2));
-                }
-            });
+            const sendAgain = () => {
+                offer.send((err2, status2) => {
+                    if (!err2) {
+                        log('Trade Offer sent!');
+                        res.send(response(offer));
+                    } else {
+                        log('Failed to send trade offer even refreshing session!');
+                        console.error(err2);
+                        res.send(errorResponse(err2));
+                    }
+                });
+            };
+
+            setTimeout(sendAgain, 5000);
         });
     });
 
