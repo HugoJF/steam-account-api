@@ -13,7 +13,7 @@ import TelegramBot from 'node-telegram-bot-api';
 
 import {haltOnTimeout, log, readTokens, validateToken} from './helpers'
 import {setup} from './pages';
-import {askFor2FACode, setupBot} from "./bot";
+import {askFor2FACode, setupBot, sendMessage} from "./bot";
 
 dotenv.config({path: __dirname + '/../.env'});
 
@@ -76,7 +76,8 @@ client.on('steamGuard', (domain, callback, lastCodeWrong) => {
 
 client.on('loggedOn', function (det) {
     log("Logged on");
-
+    sendMessage('Bot is logged in');
+    
     client.webLogOn();
 });
 

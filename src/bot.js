@@ -29,11 +29,15 @@ const saveChatId = (id) => {
     return !exists;
 };
 
-export const askFor2FACode = () => {
+export const sendMessage = (message) => {
     loadChats();
     for (let id of chats) {
-        bot.sendMessage(id, "API is requesting 2FA code...");
+        bot.sendMessage(id, message);
     }
+};
+
+export const askFor2FACode = () => {
+    sendMessage("API is requesting 2FA code...");
 
     return new Promise((res, rej) => {
         lastRequest = (code) => {
