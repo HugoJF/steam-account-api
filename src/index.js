@@ -64,11 +64,6 @@ let manager = new TradeOfferManager({
     'language': 'en'
 });
 
-// Restore PollData
-if (fs.existsSync(__dirname + '/polldata.json')) {
-    manager.pollData = JSON.parse(fs.readFileSync(__dirname + '/polldata.json'));
-}
-
 client.on('debug', (msg) => console.log('[debug] ' + msg));
 
 client.on('steamGuard', (domain, callback, lastCodeWrong) => {
