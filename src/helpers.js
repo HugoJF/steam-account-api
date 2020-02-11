@@ -11,8 +11,7 @@ export const runCallbacks = (callbackList, data) => {
 };
 
 export const log = (message) => {
-    let now = (new Date()).toISOString();
-    console.log(`[${now}]: ${message}`);
+    console.log(message);
 };
 
 export const error = (err) => {

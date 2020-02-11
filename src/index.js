@@ -64,7 +64,7 @@ let manager = new TradeOfferManager({
     'language': 'en'
 });
 
-client.on('debug', (msg) => console.log('[debug] ' + msg));
+client.on('debug', (msg) => log(`[debug] ${msg}`));
 
 client.on('steamGuard', (domain, callback, lastCodeWrong) => {
     log('Received steamGuard event, asking through Telegram Bot');
@@ -137,10 +137,10 @@ community.on("sessionExpired", (err) => {
     log('Community triggered sessionExpired, trying to relogging');
 
     if (client.steamID) {
-        console.log('SteamID is still valid, calling webLogOn');
+        log('SteamID is still valid, calling webLogOn');
         client.webLogOn();
     } else {
-        console.log('SteamID is no longer valid, calling logOn');
+        log('SteamID is no longer valid, calling logOn');
         client.logOn(STEAM_LOGON_DATA);
     }
 });
