@@ -4,7 +4,6 @@ const CHATS_PATH = './chats.json';
 
 let bot = null;
 let lastRequest = null;
-let requestTimeout = null;
 let chats = [];
 
 const loadChats = () => {
@@ -37,18 +36,16 @@ export const sendMessage = (message) => {
 };
 
 export const askFor2FACode = () => {
+    if (lastRequest)
+        clearTimeout(lastRequest);
+
     sendMessage("API is requesting 2FA code...");
 
     return new Promise((res, rej) => {
         lastRequest = (code) => {
-            clearTimeout(requestTimeout);
             res(code);
             lastRequest = null;
         };
-        requestTimeout = setTimeout(() => {
-            rej();
-            lastRequest = null;
-        }, 30000);
     });
 };
 
